@@ -11,12 +11,13 @@ module.exports = {
 	output: {
 		filename: "[name].[contenthash].js",
 		path: path.resolve(__dirname, "./dist"),
-		publicPath: "",
+		publicPath: "/static/",
 	},
 	mode: "production",
 	optimization: {
 		splitChunks: {
 			chunks: "all",
+			minSize: 3 * 1024,
 		},
 	},
 	module: {
