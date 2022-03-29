@@ -1,16 +1,19 @@
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-	entry: "./src/index.js",
-	output: {
-		filename: "bundle.[contenthash].js",
-		path: path.resolve(__dirname, "./dist"),
-		publicPath: "dist/",
+	entry: {
+		"hello-world": "./src/hello-world.js",
+		abiko: "./src/abiko.js",
 	},
-	mode: "none",
+	output: {
+		filename: "[name].[contenthash].js",
+		path: path.resolve(__dirname, "./dist"),
+		publicPath: "",
+	},
+	mode: "production",
 	module: {
 		rules: [
 			{
@@ -45,11 +48,30 @@ module.exports = {
 					},
 				},
 			},
+			{
+				test: /\.hbs$/,
+				use: ["handlebars-loader"],
+			},
 		],
 	},
 	plugins: [
-		new TerserPlugin(),
-		new MiniCssExtractPlugin({ filename: "styles.[contenthash].css" }),
+		new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
 		new CleanWebpackPlugin(),
+		new HtmlWebpackPlugin({
+			filename: "hello-world.html",
+			title: "Hello world",
+			template: "src/page-template.hbs",
+			description: "Hello world",
+			minify: false,
+			chunks: ["hello-world"],
+		}),
+		new HtmlWebpackPlugin({
+			filename: "abiko.html",
+			title: "Abiko",
+			template: "src/page-template.hbs",
+			description: "Abiko",
+			minify: false,
+			chunks: ["abiko"],
+		}),
 	],
 };
