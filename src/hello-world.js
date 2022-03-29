@@ -4,7 +4,7 @@ import Heading from "./components/heading/heading.js";
 const helloWorldButton = new HelloWorldButton();
 const heading = new Heading();
 
-heading.render();
+heading.render("hello world");
 helloWorldButton.render();
 
 if (process.env.NODE_ENV === "production") {
